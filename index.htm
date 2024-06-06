@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async-await</async-await></title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- google fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-family: "Ubuntu", sans-serif;
+            overflow-x: hidden;
+        }
+        @media(max-width:650)
+        {
+          img{
+            margin-left: 100px;
+          }
+        }
+    </style>
+</head>
+<body>
+    <div style="background-image: url(http://4.bp.blogspot.com/-wWuTowwVP80/UQ-EOuk90WI/AAAAAAAAGxM/PtWJoPiL00I/s1600/wallpaper21.jpg);width: 100%; height: 100vh;">
+    <h1 class="pt-5 text-center text-light">Know About the Country</h1>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="d-flex justify-content-center align-items-center mt-2">
+                <input type="text" placeholder="Enter the Country name" class="form-control w-75" id="country">
+                <button onclick="search()"   type="button" class="btn btn-outline-light ms-3">Search</button>
+            </div>
+            <div class=" w-100 " id="result">
+               
+            </div>
+            
+         
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    </div>
+
+</body>
+<script>
+  search = async() =>{
+  let countryName=country.value
+  console.log(countryName);
+  if(countryName){
+   const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
+  response.json().then((data)=>{
+    console.log(data[0]);
+
+    //common name
+    let cname=data[0].name.common
+    console.log(cname);
+    //official name
+    let official=data[0].name.official
+    console.log(official);
+
+    //capital
+    let capital=data[0].capital
+    console.log(capital);
+    //border
+    let border =data[0].borders
+    console.log(border);
+    //area
+    let area=data[0].area
+    console.log(area);
+  // google maps
+    let map=data[0].maps.googleMaps
+    console.log(map);
+
+    //population
+    let population=data[0].population
+    console.log(population);
+
+    //timezone
+    let timezone=data[0].timezones
+    console.log(timezone);
+    //continents
+    let continents=data[0].continents
+    console.log(continents);
+    //flags
+    let flags=data[0].flags.png
+    console.log(flags);
+
+    //languages
+    NL=[]
+    for (let lang in data[0].languages){
+      NL.push(data[0].languages[lang])
+    }
+    console.log(NL);
+    //currency
+    for(let currency in data[0].currencies){
+      var currencyName=data[0].currencies[currency].name
+      var currencySymbol=data[0].currencies[currency].symbol
+    }
+    console.log(currencyName);
+    console.log(currencySymbol);
+
+    result.innerHTML =` <div class="card mb-3 mt-2" style="max-width: 100%; background-color: rgba(0, 0, 0, 0.674);">
+                    <div class="row d-flex justify-content-center align-items-center ">
+                      <div class="col-md-4 w-100 ">
+                        <img src=${flags} class="img-fluid rounded-start mt-4" alt="..." style="margin-left: 320px;">
+                      
+                      </div>
+                      
+                      <div class="col-md-8">
+                        <div class="card-body w-100 " >
+                            <div class="card mt-4" style="width:100%;">
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item">${official}</li>
+                                  <li class="list-group-item">${cname}</li>
+                                  <li class="list-group-item">${capital}</li>
+                                  <li class="list-group-item">${border}</li>
+                                  <li class="list-group-item">${population}</li>
+                                  <li class="list-group-item">${area}</li>
+                                  <li class="list-group-item">${timezone}</li>
+                                  <li class="list-group-item">${continents}</li>
+                                  <li class="list-group-item">${NL}</li>
+                                  <li class="list-group-item">${currencyName},${currencySymbol}</li>
+                                  <li class="list-group-item">${map}</li>
+                                </ul>
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`
+  })
+  }
+  else{
+    alert("Enter a valid input")
+  }
+}
+</script>
+
+</html>
